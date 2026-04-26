@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinalReport",
+  "description": "Synthesized research report produced by the orchestrator. Preserves conflicts, open questions, and failure context.",
+  "type": "object",
+  "required": ["question", "active_agents", "executive_summary", "confirmed_findings", "conflicting_findings", "open_questions", "failed_agents", "empty_agents", "recommendation", "coverage"],
+  "properties": {
+    "question": { "type": "string" },
+    "active_agents": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "All agent IDs that were planned for this research run."
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "2-4 sentence summary of the overall research outcome."
+    },
+    "confirmed_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "summary", "sourceUrl", "confidence", "agent"],
+        "properties": {
+          "id": { "type": "string" },
+          "summary": { "type": "string" },
+          "sourceUrl": { "type": "string" },
+          "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+          "agent": { "type": "string" }
+        }
+      }
+    },
+    "conflicting_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic", "sides"],
+        "properties": {
+          "topic": { "type": "string" },
+          "sides": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["agent", "claim", "sourceUrl"],
+              "properties": {
+                "agent": { "type": "string" },
+                "claim": { "type": "string" },
+                "sourceUrl": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "description": "Contradictory findings from different agents or sources. Both sides are preserved without forced resolution."
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Questions raised during research that remain unanswered."
+    },
+    "failed_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent", "errorCategory", "message", "missingScope"],
+        "properties": {
+          "agent": { "type": "string" },
+          "errorCategory": { "type": "string" },
+          "message": { "type": "string" },
+          "missingScope": { "type": "array", "items": { "type": "string" } },
+          "partialFindings": { "type": "array" }
+        }
+      }
+    },
+    "empty_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent", "gaps"],
+        "properties": {
+          "agent": { "type": "string" },
+          "gaps": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "description": "Agents that returned no results; distinct from failed agents."
+    },
+    "recommendation": {
+      "type": "object",
+      "required": ["decision", "rationale"],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["adopt", "pilot", "defer", "reject", "insufficient_evidence"],
+          "description": "Use 'insufficient_evidence' when research coverage is too low for a confident recommendation."
+        },
+        "rationale": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent", "status"],
+        "properties": {
+          "agent": { "type": "string" },
+          "status": { "type": "string", "enum": ["ok", "partial", "error", "empty"] },
+          "findingCount": { "type": "integer" }
+        }
+      },
+      "description": "Summary table of each agent's contribution status."
+    }
+  },
+  "additionalProperties": false
+}

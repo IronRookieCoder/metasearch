@@ -1,0 +1,4 @@
+# Runtime requirements for the multi-agent research system.
+# 运行项目本体依赖 Python 3.11+ 标准库。
+# 测试依赖 pytest，用于执行 hooks 与功能测试。
+pytest>=8.0

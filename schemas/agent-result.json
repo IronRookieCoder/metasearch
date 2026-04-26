@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgentResult",
+  "description": "Structured output from a single research sub-agent. Supports ok / partial / error / empty statuses.",
+  "type": "object",
+  "required": ["agent", "status", "purpose", "scope", "queries", "sources", "findings", "gaps", "errors"],
+  "properties": {
+    "agent": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "partial", "error", "empty"],
+      "description": "ok=all sources retrieved; partial=some failed; error=critical failure; empty=no results found."
+    },
+    "purpose": { "type": "string" },
+    "scope": { "type": "string" },
+    "queries": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Search queries actually executed."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "url", "type", "date", "retrievalStatus"],
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["official", "repo", "issue", "doc", "pricing", "policy", "benchmark", "blog", "news"]
+          },
+          "date": { "type": ["string", "null"] },
+          "retrievalStatus": {
+            "type": "string",
+            "enum": ["ok", "timeout", "blocked", "not_found"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "summary", "sourceUrl", "evidence", "confidence", "tags"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^F-[0-9]{3,}$" },
+          "summary": { "type": "string" },
+          "sourceUrl": { "type": "string" },
+          "evidence": { "type": "string", "description": "Direct quote or specific excerpt that supports the finding." },
+          "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["feature", "risk", "integration", "maintenance", "pricing", "compliance", "performance"]
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Topics within scope that could not be found. Required when status=empty."
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "errorCategory": { "type": "string", "enum": ["transient", "validation", "access", "coverage"] },
+          "isRetryable": { "type": "boolean" },
+          "message": { "type": "string" },
+          "failedSources": { "type": "array", "items": { "type": "string" } },
+          "details": { "type": "object" }
+        },
+        "additionalProperties": false
+      },
+      "description": "Structured errors. Must not be empty when status=error."
+    }
+  },
+  "additionalProperties": false
+}
