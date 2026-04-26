@@ -1,12 +1,12 @@
 {
-  "name": "multi-agent-research-system",
+  "name": "metasearch",
   "owner": {
     "name": "demo",
     "email": "support@example.com"
   },
   "plugins": [
     {
-      "name": "multi-agent-research-system",
+      "name": "metasearch",
       "description": "Orchestrates dynamic sub-agents to investigate questions via web search, with structured failure propagation and conflict-aware synthesis. Supports technical selection, competitor analysis, platform integration, compliance research, and solution evaluation.",
       "source": {
         "source": "github",

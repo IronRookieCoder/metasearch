@@ -1,5 +1,5 @@
 {
-  "name": "multi-agent-research-system",
+  "name": "metasearch",
   "description": "Orchestrates dynamic sub-agents to investigate questions via web search, with structured failure propagation and conflict-aware synthesis.",
   "version": "1.0.0",
   "author": {
