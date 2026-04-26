@@ -14,5 +14,6 @@
     "web-search",
     "failure-propagation",
     "conflict-analysis"
-  ]
+  ],
+  "skills": ["./skills"]
 }

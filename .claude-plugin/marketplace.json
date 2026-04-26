@@ -9,9 +9,9 @@
       "name": "multi-agent-research-system",
       "description": "Orchestrates dynamic sub-agents to investigate questions via web search, with structured failure propagation and conflict-aware synthesis. Supports technical selection, competitor analysis, platform integration, compliance research, and solution evaluation.",
       "source": {
-      "source": "github",
-      "repo": "IronRookieCoder/metasearch"
-    }
+        "source": "github",
+        "repo": "IronRookieCoder/metasearch"
+      }
     }
   ]
 }
